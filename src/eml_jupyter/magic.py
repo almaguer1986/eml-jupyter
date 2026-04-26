@@ -59,7 +59,13 @@ def _make_magics_class() -> Any:
         @cell_magic
         def eml_witness(self, _line: str, cell: str) -> Any:    # noqa: D401
             """Evaluate the cell as an expression and show its EML witness."""
-            assert self.shell is not None
+            if self.shell is None:
+                # Defensive — happens only when the magic class is
+                # instantiated outside an IPython shell. assert would
+                # be stripped under `python -O`, hence explicit raise.
+                raise RuntimeError(
+                    "%%eml_witness requires an active IPython shell."
+                )
             obj = self.shell.ev(cell.strip())   # type: ignore[no-untyped-call]
             return _render(obj)
 

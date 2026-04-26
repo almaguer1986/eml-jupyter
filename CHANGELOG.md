@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.1] — 2026-04-25 — Audit fixes (cycle guard + assert→raise)
+
+### Fixed
+- **`_format_basic_text` now honours the IPython `cycle` flag.**
+  Previously the parameter was discarded; under a recursive repr
+  scenario the formatter could re-enter itself indefinitely. On
+  cycle detection we now emit a compact `<EMLcycle: TypeName>`
+  placeholder and bail.
+- **`%%eml_witness` cell magic raises `RuntimeError` on missing
+  shell** instead of using `assert self.shell is not None`.
+  Asserts get stripped under `python -O` so the assert was
+  effectively useless in optimised production runs.
+
 ## [0.1.0] — 2026-04-25 — Initial release
 
 E-128 v0 substrate. Rich Jupyter / IPython display for the EML
