@@ -1,4 +1,32 @@
-# eml-jupyter
+# eml-jupyter — ARCHIVED
+
+> **🗄  This package is archived as of 2026-04-25 (E-129 consolidation).**
+>
+> The functionality has been folded into the main `monogate` package
+> as of `monogate 2.4.0+`. New users should install:
+>
+> ```bash
+> pip install monogate[jupyter]
+> ```
+>
+> and load via:
+>
+> ```python
+> %load_ext monogate.jupyter
+> ```
+>
+> The standalone `eml-jupyter` PyPI / GitHub package is **frozen at
+> 0.1.2** and will receive no further updates. The `Lean-verified`
+> pill on the display panel now reads green-with-link (Universality.lean
+> was user-verified 2026-04-25) for any expression in the EML class —
+> this is automatic via the bundled `monogate.witness` module.
+>
+> See [monogate's CHANGELOG entry for 2.4.0](https://github.com/almaguer1986/monogate/blob/master/python/CHANGELOG.md#240--2026-04-25--universality-witness--cli--jupyter-folded-in)
+> for details.
+
+---
+
+# eml-jupyter (historical)
 
 Rich notebook display + cell magic for the EML substrate. Annotate
 every SymPy expression in a Jupyter cell with its Pfaffian profile,
