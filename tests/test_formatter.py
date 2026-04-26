@@ -37,8 +37,20 @@ def test_render_witness_text_includes_identification_when_present():
     assert "id:" in s
 
 
-def test_render_witness_text_omits_lean_when_unverified():
+def test_render_witness_text_includes_lean_when_verified():
+    """Post-Universality.lean verification (eml-witness 0.2.0+),
+    sin(x) — an EML-class expression — gets the Lean-verified
+    badge in its one-line summary."""
     w = universality_witness("sin(x)")
+    s = render_witness_text(w)
+    assert "Lean-verified" in s
+
+
+def test_render_witness_text_omits_lean_for_pfaffian_not_eml():
+    """Bessel is OUTSIDE the EML class — the one-line summary
+    must NOT carry the Lean-verified badge."""
+    import sympy as sp_local
+    w = universality_witness(sp_local.besselj(0, x))
     s = render_witness_text(w)
     assert "Lean-verified" not in s
 
@@ -65,10 +77,21 @@ def test_render_witness_html_includes_pfaffian_axes():
     assert re.search(r"p\d+-d\d+-w\d+-c-?\d+", h) is not None
 
 
-def test_render_witness_html_shows_lean_pending_by_default():
+def test_render_witness_html_shows_lean_verified_for_eml_class():
+    """sin(x) is in the EML class — HTML pill should be the
+    'Lean-verified · source' green variant, not 'pending'."""
     w = universality_witness("sin(x)")
     h = render_witness_html(w)
-    assert "Lean-verified: pending" in h or "pending" in h
+    assert "Lean-verified" in h
+    assert "pending" not in h
+
+
+def test_render_witness_html_shows_lean_pending_for_pfaffian_not_eml():
+    """Bessel — outside the EML class — keeps the pending pill."""
+    import sympy as sp_local
+    w = universality_witness(sp_local.besselj(0, x))
+    h = render_witness_html(w)
+    assert "pending" in h
 
 
 def test_render_witness_html_escapes_ampersand_in_expression():

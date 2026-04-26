@@ -37,7 +37,7 @@ from ._formatter import (
     unload_ipython_extension,
 )
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 __all__ = [
     "__version__",

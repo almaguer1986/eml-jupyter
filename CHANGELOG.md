@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.2] — 2026-04-25 — `verified_in_lean=True` pill (Universality.lean verified)
+
+### Changed
+- Bump `eml-witness` floor to `>=0.2.0`. The Lean-verified pill
+  beneath every cell output now reads "Lean-verified · source"
+  (with a link to the GitHub source) for any expression in the
+  EML class, instead of "pending". Bessel / Airy / Lambert W
+  expressions correctly continue to show "pending" because
+  they're outside the universality theorem's scope.
+- No formatter or magic source code changed — the pill renders
+  whatever `w.verified_in_lean` carries; flipping it upstream
+  in eml-witness 0.2.0 is enough.
+
 ## [0.1.1] — 2026-04-25 — Audit fixes (cycle guard + assert→raise)
 
 ### Fixed

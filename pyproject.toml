@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eml-jupyter"
-version = "0.1.1"
+version = "0.1.2"
 description = "IPython/Jupyter display formatter and cell magic for the EML substrate."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -29,7 +29,7 @@ dependencies = [
     "sympy>=1.12",
     "eml-cost>=0.2.0",
     "eml-discover>=0.2.0",
-    "eml-witness>=0.1.0",
+    "eml-witness>=0.2.0",
 ]
 
 [project.optional-dependencies]
