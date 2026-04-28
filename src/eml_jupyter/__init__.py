@@ -1,50 +1,42 @@
-"""eml-jupyter — rich notebook display for the EML substrate.
+"""eml-jupyter — DEPRECATED.
 
-Loading the extension installs an IPython display formatter that
-augments every ``sp.Basic`` cell output with a Pfaffian profile
-strip + identification badge underneath the usual LaTeX rendering.
+This package has been consolidated into ``eml-cost`` as the
+:mod:`eml_cost.jupyter` subpackage. The standalone distribution
+will receive no further updates.
 
-    %load_ext eml_jupyter
+Migration:
 
-After that, evaluating any SymPy expression in a cell renders both
-the math AND the EML annotation:
+    pip uninstall eml-jupyter
+    pip install "eml-cost[jupyter]>=0.15.0"
 
-    >>> import sympy as sp
-    >>> 1 / (1 + sp.exp(-sp.Symbol('x')))
-    1/(1 + exp(-x))
-    [EML  predicted_depth=2  pfaffian_r=1  identified: sigmoid (canonical)]
+    # then change your imports:
+    # OLD:  from eml_jupyter import X
+    # NEW:  from eml_cost.jupyter import X
 
-A cell magic is also registered:
-
-    %%eml_witness
-    1 / (1 + exp(-x))
-
-This prints the full ``UniversalityWitness`` (profile + identification
-+ canonical path + Lean-verified flag) in HTML form.
-
-Both surfaces use ``eml_witness.universality_witness`` under the
-hood, so the display picks up the same Lean-verified flag once
-``EML_Universality.lean`` lands and the user verifies it.
+This shim re-exports the public API from ``eml_cost.jupyter`` so
+existing code keeps working while you migrate.
 """
 from __future__ import annotations
 
-from ._formatter import (
-    install_display_formatter,
-    load_ipython_extension,
-    render_witness_html,
-    render_witness_text,
-    uninstall_display_formatter,
-    unload_ipython_extension,
+import warnings as _warnings
+
+_warnings.warn(
+    "eml-jupyter is deprecated. Use `pip install \"eml-cost[jupyter]\"` "
+    "instead. The functionality is now available at eml_cost.jupyter. "
+    "This package will receive no further updates.",
+    DeprecationWarning,
+    stacklevel=2,
 )
 
-__version__ = "0.1.2"
+from eml_cost import jupyter as _impl  # noqa: E402
 
-__all__ = [
-    "__version__",
-    "install_display_formatter",
-    "uninstall_display_formatter",
-    "render_witness_html",
-    "render_witness_text",
-    "load_ipython_extension",
-    "unload_ipython_extension",
-]
+# Mirror the upstream public API so `from eml_jupyter import X` keeps
+# working. We deliberately avoid `from eml_cost.jupyter import *`
+# to keep `__all__` faithful to whatever the new home declares.
+__all__ = list(getattr(_impl, "__all__", []))
+for _name in __all__:
+    globals()[_name] = getattr(_impl, _name)
+del _name, _impl
+
+# Override any upstream __version__ — this shim has its own version line.
+__version__ = "0.2.0"
